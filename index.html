@@ -63,7 +63,44 @@ textarea{min-height:100px;resize:vertical}
 .listing-row strong{font-size:13px}
 .listing-row small{display:block;color:#64748b;margin-top:4px}
 .note{margin:20px 5%;padding:18px;background:#e2f7f2;border-radius:12px;font-size:13px;line-height:1.6}
-footer{background:#101c35;color:white;text-align:center;padding:25px;font-size:12px;line-height:1.8;margin-top:30px}
+footer{background:#101c35;color:white;text-align:center;padding:25px;font-size:12px;line-height:1.8;margin-top:30px}.
+  details-panel{
+  display:none;
+  margin:18px 5%;
+  padding:18px;
+  background:white;
+  border-radius:13px;
+}
+.details-gallery{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  margin:15px 0;
+}
+.details-gallery img{
+  width:220px;
+  height:200px;
+  object-fit:cover;
+  border-radius:10px;
+}
+.details-price{
+  color:#078e7e;
+  font-size:24px;
+  font-weight:bold;
+  margin:12px 0;
+}
+.details-description{
+  line-height:1.7;
+  margin:12px 0;
+  white-space:pre-wrap;
+}
+.details-actions{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+.details-actions button{flex:1}
+.back-button{background:#64748b}
 @media(max-width:420px){.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
 </style>
 </head>
