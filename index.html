@@ -36,7 +36,7 @@ nav a{text-decoration:none;color:#17243b;font-size:13px}
 .brand-name{font-size:12px;color:#64748b;margin-bottom:7px}
 .price{color:#078e7e;font-weight:bold;margin-bottom:8px}
 .condition{font-size:11px;color:#64748b;margin-bottom:12px}
-.info button{width:100%;font-size:12px}
+.info button{width:100%;font-size:12px;margin-top:6px}
 .panel{margin:18px 5%;padding:18px;background:white;border-radius:13px}
 .panel h2{margin-bottom:8px}
 .muted{color:#64748b;font-size:13px;line-height:1.5}
@@ -63,45 +63,22 @@ textarea{min-height:100px;resize:vertical}
 .listing-row strong{font-size:13px}
 .listing-row small{display:block;color:#64748b;margin-top:4px}
 .note{margin:20px 5%;padding:18px;background:#e2f7f2;border-radius:12px;font-size:13px;line-height:1.6}
-footer{background:#101c35;color:white;text-align:center;padding:25px;font-size:12px;line-height:1.8;margin-top:30px}.
-  details-panel{
-  display:none;
-  margin:18px 5%;
-  padding:18px;
-  background:white;
-  border-radius:13px;
-}
-.details-gallery{
-  display:flex;
-  gap:10px;
-  overflow-x:auto;
-  margin:15px 0;
-}
-.details-gallery img{
-  width:220px;
-  height:200px;
-  object-fit:cover;
-  border-radius:10px;
-}
-.details-price{
-  color:#078e7e;
-  font-size:24px;
-  font-weight:bold;
-  margin:12px 0;
-}
-.details-description{
-  line-height:1.7;
-  margin:12px 0;
-  white-space:pre-wrap;
-}
-.details-actions{
-  display:flex;
-  gap:10px;
-  margin-top:15px;
-}
+.details-panel{display:none;margin:18px 5%;padding:18px;background:white;border-radius:13px}
+.details-gallery{display:flex;gap:10px;overflow-x:auto;margin:15px 0}
+.details-gallery img{width:240px;height:220px;object-fit:cover;border-radius:10px}
+.details-price{color:#078e7e;font-size:25px;font-weight:bold;margin:12px 0}
+.details-description{line-height:1.7;margin:15px 0;white-space:pre-wrap}
+.details-panel p{margin:9px 0;font-size:14px}
+.details-actions{display:flex;gap:10px;margin-top:18px}
 .details-actions button{flex:1}
-.back-button{background:#64748b}
-@media(max-width:420px){.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+.back-button{background:#64748b;margin-bottom:15px}
+.account-input{margin:12px 0}
+footer{background:#101c35;color:white;text-align:center;padding:25px;font-size:12px;line-height:1.8;margin-top:30px}
+@media(max-width:420px){
+.form-grid{grid-template-columns:1fr}
+.field.full{grid-column:auto}
+.details-gallery img{width:200px;height:190px}
+}
 </style>
 </head>
 <body>
@@ -121,6 +98,7 @@ footer{background:#101c35;color:white;text-align:center;padding:25px;font-size:1
   <a href="#products">Marketplace</a>
   <a href="#cart">My Cart (<span id="cartCount">0</span>)</a>
   <a href="#seller">Seller Centre</a>
+  <a href="#account">My Account</a>
 </nav>
 
 <section class="hero">
@@ -146,13 +124,29 @@ footer{background:#101c35;color:white;text-align:center;padding:25px;font-size:1
   <div class="products" id="productList"></div>
 </section>
 
+<section class="details-panel" id="productDetails">
+  <button class="back-button" onclick="closeProductDetails()">← Back to products</button>
+  <h2 id="detailName"></h2>
+  <div class="details-gallery" id="detailGallery"></div>
+  <div class="details-price" id="detailPrice"></div>
+  <p><strong>Brand:</strong> <span id="detailBrand"></span></p>
+  <p><strong>Condition:</strong> <span id="detailCondition"></span></p>
+  <p><strong>Category:</strong> <span id="detailCategory"></span></p>
+  <p><strong>Quantity available:</strong> <span id="detailQuantity"></span></p>
+  <p><strong>Seller:</strong> <span id="detailSeller"></span></p>
+  <p><strong>Fulfilment:</strong> <span id="detailDelivery"></span></p>
+  <div class="details-description" id="detailDescription"></div>
+  <div class="details-actions">
+    <button onclick="addDetailToCart()">Add to Cart</button>
+  </div>
+</section>
+
 <section class="panel" id="seller">
   <h2>Seller Centre</h2>
   <p class="muted">Demo seller workspace. Add your product details and photos to create a marketplace listing on this device.</p>
 
   <form id="productForm">
     <div class="form-grid">
-
       <div class="field full">
         <label for="photos">Product pictures (select multiple)</label>
         <div class="upload">
@@ -223,7 +217,6 @@ footer{background:#101c35;color:white;text-align:center;padding:25px;font-size:1
         <label for="description">Product description *</label>
         <textarea id="description" placeholder="Describe the item, specifications, features and any defects..." required maxlength="1500"></textarea>
       </div>
-
     </div>
     <button class="primary" id="publishButton" type="submit">Publish product</button>
   </form>
@@ -243,6 +236,23 @@ footer{background:#101c35;color:white;text-align:center;padding:25px;font-size:1
   <button onclick="checkout()">Proceed to checkout</button>
 </section>
 
+<section class="panel" id="account">
+  <h2>My Buyer Account</h2>
+  <p class="muted">Create a demo buyer profile on this device.</p>
+  <form id="accountForm">
+    <div class="account-input">
+      <label for="buyerName">Your name</label>
+      <input id="buyerName" placeholder="Enter your name" required maxlength="60">
+    </div>
+    <div class="account-input">
+      <label for="buyerEmail">Email address</label>
+      <input id="buyerEmail" type="email" placeholder="Enter your email" required>
+    </div>
+    <button type="submit">Save demo profile</button>
+  </form>
+  <p id="accountMessage" class="muted" style="margin-top:12px"></p>
+</section>
+
 <footer>
   <strong>SwiftDrop by MEETORA</strong><br>
   Buy. Negotiate. Pay. Receive.<br>
@@ -252,15 +262,16 @@ footer{background:#101c35;color:white;text-align:center;padding:25px;font-size:1
 
 <script>
 const demoProducts=[
-{id:"phone",name:"Smartphone",brand:"Demo brand",price:1250,condition:"Brand new",emoji:"📱",seller:"Demo seller",quantity:5,images:[]},
-{id:"laptop",name:"Laptop",brand:"Demo brand",price:2800,condition:"Good",emoji:"💻",seller:"Demo seller",quantity:2,images:[]},
-{id:"shoes",name:"Sports shoes",brand:"Demo brand",price:180,condition:"Brand new",emoji:"👟",seller:"Demo seller",quantity:8,images:[]},
-{id:"bag",name:"School backpack",brand:"Demo brand",price:95,condition:"Like new",emoji:"🎒",seller:"Demo seller",quantity:4,images:[]}
+{id:"phone",name:"Smartphone",brand:"Demo brand",price:1250,condition:"Brand new",emoji:"📱",seller:"Demo seller",quantity:5,category:"Phones",delivery:"Delivery",description:"A demonstration smartphone listing.",images:[]},
+{id:"laptop",name:"Laptop",brand:"Demo brand",price:2800,condition:"Good",emoji:"💻",seller:"Demo seller",quantity:2,category:"Electronics",delivery:"Pickup",description:"A demonstration laptop listing.",images:[]},
+{id:"shoes",name:"Sports shoes",brand:"Demo brand",price:180,condition:"Brand new",emoji:"👟",seller:"Demo seller",quantity:8,category:"Fashion",delivery:"Delivery",description:"A demonstration sports shoes listing.",images:[]},
+{id:"bag",name:"School backpack",brand:"Demo brand",price:95,condition:"Like new",emoji:"🎒",seller:"Demo seller",quantity:4,category:"Education",delivery:"Pickup",description:"A demonstration school backpack listing.",images:[]}
 ];
 
 let customProducts=[];
 let cart={};
 let selectedPhotos=[];
+let selectedProductId=null;
 
 function readStore(key,fallback){
   try{
@@ -309,13 +320,20 @@ function removeItem(id){
   saveCart();
 }
 
+function escapeHTML(value){
+  return String(value??"").replace(/[&<>"']/g,char=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[char]);
+}
+
 function renderProducts(){
   const container=document.getElementById("productList");
   container.innerHTML="";
   allProducts().forEach(p=>{
     const image=p.images&&p.images.length
-      ?`<img src="${p.images[0]}" alt="">`
+      ?`<img src="${p.images[0]}" alt="${escapeHTML(p.name)}">`
       :`<span>${p.emoji||"📦"}</span>`;
+
     container.innerHTML+=`
       <article class="product">
         <div class="photo">${image}</div>
@@ -324,10 +342,56 @@ function renderProducts(){
           <div class="brand-name">${escapeHTML(p.brand||"")}</div>
           <div class="price">GH₵ ${Number(p.price).toFixed(2)}</div>
           <div class="condition">${escapeHTML(p.condition)} · ${escapeHTML(p.seller||"Seller")}</div>
+          <button onclick="openProductDetails('${p.id}')">View details</button>
           <button onclick="addToCart('${p.id}')">Add to cart</button>
         </div>
       </article>`;
   });
+}
+
+function openProductDetails(id){
+  const p=allProducts().find(item=>item.id===id);
+  if(!p)return;
+
+  selectedProductId=id;
+  document.getElementById("detailName").textContent=p.name;
+  document.getElementById("detailPrice").textContent="GH₵ "+Number(p.price).toFixed(2);
+  document.getElementById("detailBrand").textContent=p.brand||"Not specified";
+  document.getElementById("detailCondition").textContent=p.condition||"Not specified";
+  document.getElementById("detailCategory").textContent=p.category||"Not specified";
+  document.getElementById("detailQuantity").textContent=p.quantity;
+  document.getElementById("detailSeller").textContent=p.seller||"SwiftDrop Seller";
+  document.getElementById("detailDelivery").textContent=p.delivery||"Contact seller";
+  document.getElementById("detailDescription").textContent=p.description||"No description provided.";
+
+  const gallery=document.getElementById("detailGallery");
+  gallery.innerHTML="";
+
+  if(p.images&&p.images.length){
+    p.images.forEach(src=>{
+      const img=document.createElement("img");
+      img.src=src;
+      img.alt=p.name;
+      gallery.appendChild(img);
+    });
+  }else{
+    gallery.textContent=p.emoji||"📦";
+  }
+
+  document.getElementById("productDetails").style.display="block";
+  document.getElementById("products").style.display="none";
+  document.getElementById("productDetails").scrollIntoView({behavior:"smooth"});
+}
+
+function closeProductDetails(){
+  document.getElementById("productDetails").style.display="none";
+  document.getElementById("products").style.display="block";
+  document.getElementById("products").scrollIntoView({behavior:"smooth"});
+  selectedProductId=null;
+}
+
+function addDetailToCart(){
+  if(selectedProductId)addToCart(selectedProductId);
 }
 
 function renderCart(){
@@ -339,9 +403,11 @@ function renderCart(){
     const p=allProducts().find(item=>item.id===id);
     const qty=cart[id];
     if(!p||qty<=0)return;
+
     const subtotal=p.price*qty;
     total+=subtotal;
     count+=qty;
+
     container.innerHTML+=`
       <div class="cart-item">
         <div class="cart-row">
@@ -364,10 +430,12 @@ function renderCart(){
 
 function renderMyListings(){
   const container=document.getElementById("myListings");
+
   if(!customProducts.length){
     container.innerHTML='<p class="empty">You have not uploaded any products yet.</p>';
     return;
   }
+
   container.innerHTML="";
   customProducts.forEach(p=>{
     const image=p.images&&p.images.length?p.images[0]:"";
@@ -383,20 +451,16 @@ function renderMyListings(){
   });
 }
 
-function escapeHTML(value){
-  return String(value).replace(/[&<>"']/g,char=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  })[char]);
-}
-
 document.getElementById("photos").addEventListener("change",async function(){
   selectedPhotos=[];
   const files=Array.from(this.files||[]);
+
   if(files.length>5){
     alert("Please select no more than 5 photos.");
     this.value="";
     return;
   }
+
   for(const file of files){
     if(!file.type.startsWith("image/"))continue;
     try{
@@ -481,6 +545,7 @@ document.getElementById("productForm").addEventListener("submit",function(event)
   }
 
   const updated=[product,...customProducts];
+
   try{
     localStorage.setItem("swiftdropSellerProducts",JSON.stringify(updated));
     customProducts=updated;
@@ -506,6 +571,32 @@ function searchProducts(){
   });
 }
 
+document.getElementById("accountForm").addEventListener("submit",function(event){
+  event.preventDefault();
+
+  const profile={
+    name:document.getElementById("buyerName").value.trim(),
+    email:document.getElementById("buyerEmail").value.trim()
+  };
+
+  try{
+    localStorage.setItem("swiftdropBuyerProfile",JSON.stringify(profile));
+    document.getElementById("accountMessage").textContent=
+      "Demo profile saved on this device. Welcome, "+profile.name+"!";
+  }catch(e){
+    alert("Could not save your profile in this browser.");
+  }
+});
+
+function loadBuyerProfile(){
+  const profile=readStore("swiftdropBuyerProfile",null);
+  if(!profile)return;
+  document.getElementById("buyerName").value=profile.name||"";
+  document.getElementById("buyerEmail").value=profile.email||"";
+  document.getElementById("accountMessage").textContent=
+    "Welcome back, "+profile.name+"!";
+}
+
 function checkout(){
   if(!Object.keys(cart).length){
     alert("Your cart is empty!");
@@ -517,6 +608,7 @@ function checkout(){
 renderProducts();
 renderCart();
 renderMyListings();
+loadBuyerProfile();
 </script>
 </body>
 </html>
